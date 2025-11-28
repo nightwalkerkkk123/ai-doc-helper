@@ -1,6 +1,8 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { X, UploadCloud, Cpu, MessageSquare, HelpCircle, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
+
+const STORAGE_KEY = 'rag-onboarding-visible';
 
 export default function StaticOnboarding({
   defaultOpen = true,
@@ -8,6 +10,23 @@ export default function StaticOnboarding({
   onToggle,
 }: StaticOnboardingProps) {
   const [isOpen, setIsOpen] = useState<boolean>(defaultOpen);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const savedState = localStorage.getItem(STORAGE_KEY);
+      if (savedState !== null) {
+        setIsOpen(JSON.parse(savedState));
+      }
+      setIsLoaded(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isLoaded && typeof window !== 'undefined') {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(isOpen));
+    }
+  }, [isOpen, isLoaded]);
 
   const handleToggle = useCallback(
     (open: boolean) => {
@@ -55,16 +74,16 @@ const steps: Step[] = [
   {
     id: 1,
     title: '1. 上传文档',
-    subtitle: 'PDF / Word / TXT',
+    subtitle: 'MD / DOCX / TXT 等',
     icon: <UploadCloud className="w-5 h-5" />,
-    color: 'blue',
+    color: 'orange',
   },
   {
     id: 2,
     title: '2. 等待处理',
-    subtitle: 'AI 自动解析与学习',
+    subtitle: 'AI 解析与学习',
     icon: <Cpu className="w-5 h-5" />,
-    color: 'orange',
+    color: 'blue',
   },
   {
     id: 3,
@@ -104,10 +123,10 @@ function OnboardingHeader({ onClose, isOpen }: { onClose: () => void; isOpen: bo
   return (
     <div className="flex justify-between items-start mb-5">
       <div>
-        <h2 className="text-m font-bold text-gray-800 flex items-center gap-2">
+        <h2 className="text-sm font-bold text-gray-800 flex items-center gap-2">
           <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />快速上手指南
         </h2>
-        <p className="text-sm text-gray-500 mt-1 pl-3.5">构建你的专属 AI 知识库</p>
+        <p className="text-xs text-gray-600 mt-1 pl-3.5">构建你的专属 AI 知识库</p>
       </div>
 
       <button
@@ -141,7 +160,7 @@ const StepItem = React.memo(function StepItem({ step }: { step: Step }) {
         {step.icon}
       </div>
       <div className="text-center">
-        <span className="block text-sm font-semibold text-gray-800">{step.title}</span>
+        <span className="block text-xs font-semibold text-gray-800">{step.title}</span>
         <span className="block text-xs text-gray-500 mt-0.5">{step.subtitle}</span>
       </div>
     </div>
