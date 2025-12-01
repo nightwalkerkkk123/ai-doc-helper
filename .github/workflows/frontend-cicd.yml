@@ -5,10 +5,14 @@ on:
   # 触发规则：push/PR到master/develop（仅前端代码变更）、手动触发
   push:
     branches: [ "master", "develop" ]
-    paths: [ 'lightrag_webui/**' ]
+    paths:
+      - 'lightrag_webui/**'          # 前端代码变更触发
+      - '.github/workflows/**'       # 所有CI/CD配置文件变更触发（推荐）
   pull_request:
     branches: [ "master", "develop" ]
-    paths: [ 'lightrag_webui/**' ]
+    paths:
+      - 'lightrag_webui/**'          # 前端代码变更触发
+      - '.github/workflows/**'       # CI/CD配置文件变更触发
   workflow_dispatch:
 
 # 部署Pages所需最小权限
