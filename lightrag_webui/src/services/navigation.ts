@@ -1,7 +1,7 @@
 import { NavigateFunction } from 'react-router-dom';
-import { useAuthStore, useBackendState } from '@/stores/state';
-import { useGraphStore } from '@/stores/graph';
-import { useSettingsStore } from '@/stores/settings';
+import { useAuthStore, useBackendState } from '../stores/state';
+// import { useGraphStore } from '@/stores/graph';
+import { useSettingsStore } from '../stores/settings';
 
 class NavigationService {
   private navigate: NavigateFunction | null = null;
@@ -23,13 +23,13 @@ class NavigationService {
     console.log('Resetting all application state...');
 
     // Reset graph state
-    const graphStore = useGraphStore.getState();
-    const sigma = graphStore.sigmaInstance;
-    graphStore.reset();
-    graphStore.setGraphDataFetchAttempted(false);
-    graphStore.setLabelsFetchAttempted(false);
-    graphStore.setSigmaInstance(null);
-    graphStore.setIsFetching(false); // Reset isFetching state to prevent data loading issues
+    // const graphStore = useGraphStore.getState();
+    // const sigma = graphStore.sigmaInstance;
+    // graphStore.reset();
+    // graphStore.setGraphDataFetchAttempted(false);
+    // graphStore.setLabelsFetchAttempted(false);
+    // graphStore.setSigmaInstance(null);
+    // graphStore.setIsFetching(false); // Reset isFetching state to prevent data loading issues
 
     // Reset backend state
     useBackendState.getState().clear();
@@ -42,11 +42,11 @@ class NavigationService {
     // Clear authentication state
     sessionStorage.clear();
 
-    if (sigma) {
-      sigma.getGraph().clear();
-      sigma.kill();
-      useGraphStore.getState().setSigmaInstance(null);
-    }
+    // if (sigma) {
+    //   sigma.getGraph().clear();
+    //   sigma.kill();
+    //   useGraphStore.getState().setSigmaInstance(null);
+    // }
   }
 
   /**

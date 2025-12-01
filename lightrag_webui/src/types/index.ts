@@ -1,6 +1,10 @@
 import React from 'react';
 
 export type Tab = 'home' | 'documents' | 'chat';
+export type CardTab = {
+  id: string;
+  label: string;
+};
 
 export interface Scenario {
   id: number;
@@ -48,4 +52,50 @@ export interface ChatSession {
   title: string;
   preview: string;
   date: string;
+}
+
+// Evaluation
+export type EvalStatus = 'idle' | 'loading' | 'done';
+
+export type RagasMetricKey =
+  | 'faithfulness'
+  | 'answer_relevance'
+  | 'context_recall'
+  | 'context_precision';
+
+export interface RagasMetrics {
+  faithfulness?: number;
+  answer_relevance?: number;
+  context_recall?: number;
+  context_precision?: number;
+}
+
+export interface EvalSample {
+  id: string | number;
+  query: string;
+  answer: string;
+  reference_answer?: string;
+  contexts: string[];
+  metrics: RagasMetrics;
+}
+
+export interface EvalResult {
+  total_samples: number;
+  metrics: RagasMetrics;
+  samples: EvalSample[];
+}
+
+export interface EvalSample {
+  id: string | number;
+  query: string;
+  answer: string;
+  reference_answer?: string;
+  contexts: string[];
+  metrics: RagasMetrics;
+}
+
+export interface EvalResult {
+  total_samples: number;
+  metrics: RagasMetrics;
+  samples: EvalSample[];
 }
