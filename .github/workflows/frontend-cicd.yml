@@ -51,7 +51,7 @@ jobs:
         run: bun run build
         env:
           # 适配GitHub Pages路径：仓库名/webui/（匹配前端Router basename）
-          VITE_BASE_URL: /${{ github.event.repository.name }}/webui/
+          VITE_BASE_URL: /${{ github.event.repository.name }}/
 
       # 仅master分支push时上传构建产物（用于部署）
       - name: Upload Build Artifact
